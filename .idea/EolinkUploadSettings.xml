@@ -3,8 +3,16 @@
   <component name="com.api.demo.settings.UploadSettings">
     <option name="autoAddSlash" value="true" />
     <option name="autoParamExample" value="true" />
+    <option name="branch">
+      <BranchDTO>
+        <option name="name" value="&lt;None&gt;" />
+      </BranchDTO>
+    </option>
+    <option name="projectHashKey" value="" />
     <option name="server" value="https://apis.eolink.com/api" />
+    <option name="spaceKey" value="" />
     <option name="toClassNameGroup" value="false" />
     <option name="toDefaultGroup" value="true" />
+    <option name="token" value="" />
   </component>
 </project>

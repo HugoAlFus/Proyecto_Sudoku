@@ -1,0 +1,3 @@
+2024-12-10 19:29:00,473 ERROR e.c.U.GestorSudokus [main] Hubo un error al cargar los datos del sudoku.
+UUID: 17ab8c2b-5d1e-49ed-bd41-5cdeb726a6da
+Mensaje: es.cheste.Objetos.Sudoku; local class incompatible: stream classdesc serialVersionUID = -6352907546964353678, local class serialVersionUID = -7457514124662319888

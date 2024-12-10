@@ -1,15 +1,16 @@
 package es.cheste.Objetos;
 
+import es.cheste.Utilidad.Configuracion;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class Sudoku implements Serializable {
 
-    private static final int TAMANYO = 9;
+    private static final int TAMANYO = Integer.parseInt(Configuracion.getConfiguracion("sudoku.tamanyo"));
     private final int[][] tableroSolucion;
     private final int[][] tablero;
     private final String uuid;
-
 
     public Sudoku() {
         this.tableroSolucion = new int[TAMANYO][TAMANYO];
@@ -30,9 +31,16 @@ public class Sudoku implements Serializable {
         return Objects.deepEquals(tableroSolucion, sudoku.tableroSolucion);
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Sudoku:\n");
+    public String getUuid() {
+        return uuid;
+    }
+
+    public String mostrarTableroSolucion() {
+        return mostrarTablero(tableroSolucion);
+    }
+
+    private String mostrarTablero(int[][] tableroMostrar) {
+        final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < TAMANYO; i++) {
             if (i % 3 == 0 && i != 0) {
 
@@ -44,7 +52,7 @@ public class Sudoku implements Serializable {
                 if (j % 3 == 0 && j != 0) {
                     sb.append(String.format("%4s", "|"));
                 }
-                sb.append(String.format("%4s", tablero[i][j] == 0 ? "." : tablero[i][j]));
+                sb.append(String.format("%4s", tableroMostrar[i][j] == 0 ? "." : tableroMostrar[i][j]));
                 sb.append(String.format("%4s", " "));
             }
             sb.append("\n");
@@ -52,8 +60,8 @@ public class Sudoku implements Serializable {
         return sb.toString();
     }
 
-    public String getUuid() {
-        return uuid;
+    public String mostarTableroResolver() {
+        return mostrarTablero(tablero);
     }
 
     public void generar(int celdasVaciar) {
@@ -122,5 +130,19 @@ public class Sudoku implements Serializable {
                 vaciadas++;
             }
         }
+    }
+
+    public String comprobarResultado(int[][] tableroJugador) {
+        int[][] tableroComprobacion = new int[TAMANYO][TAMANYO];
+
+        for (int i = 0; i < TAMANYO; i++) {
+            for (int j = 0; j < TAMANYO; j++) {
+                if (tableroJugador[i][j] != tableroSolucion[i][j]) {
+                    tableroComprobacion[i][j] = 0;
+                } else tableroComprobacion[i][j] = tableroSolucion[i][j];
+            }
+        }
+
+        return mostrarTablero(tableroComprobacion);
     }
 }
