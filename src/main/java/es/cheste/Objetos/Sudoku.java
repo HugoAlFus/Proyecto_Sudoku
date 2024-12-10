@@ -75,16 +75,16 @@ public class Sudoku implements Serializable {
                         if (esValido(fila, col, num)) {
                             tableroSolucion[fila][col] = num;
                             if (rellenarTablero()) {
-                                return true;
+                                return Boolean.TRUE;
                             }
                             tableroSolucion[fila][col] = 0;
                         }
                     }
-                    return false;
+                    return Boolean.FALSE;
                 }
             }
         }
-        return true;
+        return Boolean.TRUE;
     }
 
     private boolean esValido(int fila, int col, int num) {
@@ -99,11 +99,11 @@ public class Sudoku implements Serializable {
         for (int i = boxFila; i < boxFila + 3; i++) {
             for (int j = boxCol; j < boxCol + 3; j++) {
                 if (tableroSolucion[i][j] == num) {
-                    return false;
+                    return Boolean.FALSE;
                 }
             }
         }
-        return true;
+        return Boolean.TRUE;
     }
 
     private void copiarTableroSolucion() {

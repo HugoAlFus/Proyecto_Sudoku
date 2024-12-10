@@ -20,13 +20,21 @@ public class GestorSudokus {
 
     private boolean guardarDatos(Sudoku sudoku) {
 
+        boolean esValido = Boolean.TRUE;
+
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DIRECTORIO_DATOS + sudoku.getUuid() + ".dat"))) {
 
+            oos.writeObject(sudoku);
+
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("No se ha encontrado el fichero en el método 'guardarDatos' {}", e.getMessage());
+            esValido = Boolean.FALSE;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("Ocurrio un error al guardar el objeto {}", e.getMessage());
+            esValido = Boolean.FALSE;
         }
+
+        return esValido;
     }
 
 
@@ -36,6 +44,7 @@ public class GestorSudokus {
         sudoku.generar(20);
 
         guardarSudoku(sudoku);
+        guardarDatos(sudoku);
     }
 
     private boolean guardarSudoku(Sudoku sudoku) {
