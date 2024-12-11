@@ -17,20 +17,7 @@ public class GestorSudokus {
     private static final String DIRECTORIO_DATOS = Configuracion.getConfiguracion("directorio.datos");
     private static final Logger LOGGER = LogManager.getLogger(GestorSudokus.class);
 
-    public void comenzarSudoku() {
-
-        Sudoku sudoku = new Sudoku();
-        sudoku.generar(2);
-
-        /*guardarSudoku(sudoku);
-        guardarDatosSudoku(sudoku);*/
-        Sudoku sudoku1 = cargarDatosSudoku("d006d1ed-7783-4d82-b318-e2179483fc5f");
-        int[][] tablero = cargarSudoku("d006d1ed-7783-4d82-b318-e2179483fc5f");
-
-        System.out.println(sudoku1.comprobarResultado(tablero));
-    }
-
-    private int[][] cargarSudoku(String uuidSudoku) {
+    public int[][] cargarSudoku(String uuidSudoku) {
         final int tamanyo = Integer.parseInt(Configuracion.getConfiguracion("sudoku.tamanyo"));
         Path pathPartida = Paths.get(DIRECTORIO_PARTIDAS + uuidSudoku + ".txt");
         List<String> lineas;
@@ -68,12 +55,12 @@ public class GestorSudokus {
         return numeros;
     }
 
-    private boolean guardarSudoku(Sudoku sudoku) {
+    public boolean guardarSudoku(Sudoku sudoku) {
 
         Path pathPartida = Paths.get(DIRECTORIO_PARTIDAS + sudoku.getUuid() + ".txt");
 
         try {
-            Files.writeString(pathPartida, sudoku.mostarTableroResolver());
+            Files.writeString(pathPartida, Sudoku.mostrarTablero(sudoku.getTablero()));
         } catch (FileNotFoundException e) {
             LOGGER.error("No se ha encontrado el fichero en el método 'guardarSudoku' {}", e.getMessage());
             return Boolean.FALSE;
@@ -84,7 +71,7 @@ public class GestorSudokus {
         return Boolean.TRUE;
     }
 
-    private boolean guardarDatosSudoku(Sudoku sudoku) {
+    public boolean guardarDatosSudoku(Sudoku sudoku) {
 
         boolean esValido = Boolean.TRUE;
 
@@ -103,7 +90,7 @@ public class GestorSudokus {
         return esValido;
     }
 
-    private Sudoku cargarDatosSudoku(String uuidSudoku) {
+    public Sudoku cargarDatosSudoku(String uuidSudoku) {
 
         Sudoku sudoku = null;
 

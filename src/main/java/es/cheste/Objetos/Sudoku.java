@@ -35,11 +35,25 @@ public class Sudoku implements Serializable {
         return uuid;
     }
 
-    public String mostrarTableroSolucion() {
-        return mostrarTablero(tableroSolucion);
+    public int[][] getTableroSolucion() {
+        return tableroSolucion;
     }
 
-    private String mostrarTablero(int[][] tableroMostrar) {
+    public int[][] getTablero() {
+        return tablero;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Sudoku{");
+        sb.append("tableroSolucion=").append(Arrays.toString(tableroSolucion));
+        sb.append(", tablero=").append(Arrays.toString(tablero));
+        sb.append(", uuid='").append(uuid).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public static String mostrarTablero(int[][] tableroMostrar) {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < TAMANYO; i++) {
             if (i % 3 == 0 && i != 0) {
@@ -58,10 +72,6 @@ public class Sudoku implements Serializable {
             sb.append("\n");
         }
         return sb.toString();
-    }
-
-    public String mostarTableroResolver() {
-        return mostrarTablero(tablero);
     }
 
     public void generar(int celdasVaciar) {
@@ -132,7 +142,7 @@ public class Sudoku implements Serializable {
         }
     }
 
-    public String comprobarResultado(int[][] tableroJugador) {
+    public int[][] comprobarResultado(int[][] tableroJugador) {
         int[][] tableroComprobacion = new int[TAMANYO][TAMANYO];
 
         for (int i = 0; i < TAMANYO; i++) {
@@ -143,6 +153,6 @@ public class Sudoku implements Serializable {
             }
         }
 
-        return mostrarTablero(tableroComprobacion);
+        return tableroComprobacion;
     }
 }
