@@ -1,11 +1,13 @@
 package es.cheste;
 
 import es.cheste.Objetos.Sudoku;
+import es.cheste.Utilidad.Configuracion;
 import es.cheste.Utilidad.GestorSudokus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -23,7 +25,17 @@ public class Main {
                 System.err.println("Ocurrio un error inesperado, cerrando programa.");
                 break;
             case '1':
-                int dificultad = elegirDificultad();
+                Sudoku sudoku = new Sudoku();
+                int numHuecos = elegirDificultad();
+                sudoku.generar(numHuecos);
+                System.out.println(gestorSudokus.guardarSudoku(sudoku) ? "El sudoku se guardo correctamente"
+                        : "Hubo un error y no se puedo guardar el sudoku");
+                System.out.println(gestorSudokus.guardarDatosSudoku(sudoku) ? "Los datos del sudoku se han guardado correctamente"
+                        : "Hubo un error al guardar los datos");
+                break;
+            case '2':
+
+
         }
 
     }
@@ -53,9 +65,20 @@ public class Main {
             }
 
         } while (opcion != '1' && opcion != '2' && opcion != '3' && opcion != '0' && opcion != '4');
-        //TODO conseguir la dificultad mediante la elccion
-        //TODO Facil -> 32-36 ; Medio -> 37-41 ; Dificil -> 42-49
-        return opcion;
+
+        return obtenerNumeroHuecos(opcion);
+    }
+
+    private static int obtenerNumeroHuecos(char dificultad) {
+
+        Random random = new Random();
+        int numHuecos = switch (dificultad) {
+            case '1' -> Integer.parseInt(Configuracion.getConfiguracion("sudoku.hueco.facil")) + random.nextInt(5);
+            case '2' -> Integer.parseInt(Configuracion.getConfiguracion("sudoku.hueco.medio")) + random.nextInt(5);
+            default -> Integer.parseInt(Configuracion.getConfiguracion("sudoku.hueco.dificil")) + random.nextInt(8);
+        };
+
+        return numHuecos;
     }
 
     private static char elegirOpcion() {

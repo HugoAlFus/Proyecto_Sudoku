@@ -13,8 +13,8 @@ import java.util.List;
 
 public class GestorSudokus {
 
-    private static final String DIRECTORIO_PARTIDAS = Configuracion.getConfiguracion("directorio.partidas");
-    private static final String DIRECTORIO_DATOS = Configuracion.getConfiguracion("directorio.datos");
+    private static final String DIRECTORIO_PARTIDAS = Configuracion.getConfiguracion("directorio.partidas") + "Sudoku_";
+    private static final String DIRECTORIO_DATOS = Configuracion.getConfiguracion("directorio.datos") + "Sudoku_";
     private static final Logger LOGGER = LogManager.getLogger(GestorSudokus.class);
 
     public int[][] cargarSudoku(String uuidSudoku) {
@@ -27,7 +27,7 @@ public class GestorSudokus {
             lineas = Files.readAllLines(pathPartida);
             lineas = lineas.stream()
                     .map(linea -> linea.replaceAll("[|\\-+]", " "))
-                    .filter(linea ->!linea.trim().isEmpty())
+                    .filter(linea -> !linea.trim().isEmpty())
                     .toList();
             for (int i = 0; i < tamanyo; i++) {
 
@@ -101,5 +101,15 @@ public class GestorSudokus {
         }
 
         return sudoku;
+    }
+
+    public File[] obtenerListadoPartidas() {
+
+        File directorio = new File(DIRECTORIO_PARTIDAS);
+
+        if (directorio.isDirectory()) {
+            return directorio.listFiles();
+        }
+        return null;
     }
 }
