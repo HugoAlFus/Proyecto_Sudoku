@@ -72,13 +72,12 @@ public class Main {
     private static int obtenerNumeroHuecos(char dificultad) {
 
         Random random = new Random();
-        int numHuecos = switch (dificultad) {
+
+        return switch (dificultad) {
             case '1' -> Integer.parseInt(Configuracion.getConfiguracion("sudoku.hueco.facil")) + random.nextInt(5);
             case '2' -> Integer.parseInt(Configuracion.getConfiguracion("sudoku.hueco.medio")) + random.nextInt(5);
             default -> Integer.parseInt(Configuracion.getConfiguracion("sudoku.hueco.dificil")) + random.nextInt(8);
         };
-
-        return numHuecos;
     }
 
     private static char elegirOpcion() {
