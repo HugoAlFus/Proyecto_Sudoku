@@ -6,9 +6,7 @@ import es.cheste.Utilidad.GestorSudokus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -38,6 +36,21 @@ public class Main {
 
         }
 
+    }
+
+    private static String elegirFichero(){
+
+        int opcion;
+        StringBuilder sb = new StringBuilder("--Listado Sudokus--\n");
+        List<String> listaUUID = GestorSudokus.obtenerUUIDSudoku();
+
+        for (int i = 0; i < listaUUID.size() ; i++) {
+
+            sb.append((i+1)).append(". ").append(listaUUID.get(i));
+
+        }
+
+        return "";
     }
 
     private static int elegirDificultad() {

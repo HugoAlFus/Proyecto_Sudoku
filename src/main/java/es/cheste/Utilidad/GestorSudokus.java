@@ -8,6 +8,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -103,7 +104,7 @@ public class GestorSudokus {
         return sudoku;
     }
 
-    public File[] obtenerListadoPartidas() {
+    private static File[] obtenerListadoPartidas() {
 
         File directorio = new File(DIRECTORIO_PARTIDAS);
 
@@ -112,4 +113,27 @@ public class GestorSudokus {
         }
         return null;
     }
+
+    public static List<String> obtenerUUIDSudoku() {
+
+        File[] listaFicheros = obtenerListadoPartidas();
+
+        if (listaFicheros != null) {
+
+            List<String> uuidFichero = new ArrayList<>();
+
+            for (File fichero : listaFicheros) {
+
+                String[] ficheroSplit;
+
+                ficheroSplit = fichero.getName().split("_");
+                uuidFichero.add(ficheroSplit[1]);
+            }
+
+            return uuidFichero;
+        }
+
+        return new ArrayList<>();
+    }
+
 }
