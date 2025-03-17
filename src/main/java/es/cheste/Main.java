@@ -8,11 +8,22 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
+/**
+ * @author Hugo Almodóvar Fuster
+ * @version 1.0
+ *
+ * La clase Main es el punto de entrada de la aplicación de Sudoku.
+ * Proporciona un menú para que el usuario elija entre jugar un nuevo Sudoku o comprobar uno existente.
+ */
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static Scanner sc = new Scanner(System.in);
 
+    /**
+     * Método principal que inicia la aplicación de Sudoku.
+     * @param args los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
 
         char eleccion = elegirOpcion();
@@ -32,27 +43,32 @@ public class Main {
                         : "Hubo un error al guardar los datos");
                 break;
             case '2':
-
-
+                // Código para comprobar un Sudoku existente
+                break;
         }
-
     }
 
-    private static String elegirFichero(){
+    /**
+     * Muestra un menú para que el usuario elija un archivo de Sudoku.
+     * @return el nombre del archivo seleccionado.
+     */
+    private static String elegirFichero() {
 
         int opcion;
         StringBuilder sb = new StringBuilder("--Listado Sudokus--\n");
         List<String> listaUUID = GestorSudokus.obtenerUUIDSudoku();
 
-        for (int i = 0; i < listaUUID.size() ; i++) {
-
-            sb.append((i+1)).append(". ").append(listaUUID.get(i));
-
+        for (int i = 0; i < listaUUID.size(); i++) {
+            sb.append((i + 1)).append(". ").append(listaUUID.get(i));
         }
 
         return "";
     }
 
+    /**
+     * Muestra un menú para que el usuario elija la dificultad del Sudoku.
+     * @return el número de huecos en el tablero según la dificultad elegida.
+     */
     private static int elegirDificultad() {
         char opcion;
 
@@ -65,9 +81,7 @@ public class Main {
                     3. Difícil
                     4. Salir""");
             try {
-
                 opcion = sc.next().charAt(0);
-
             } catch (NoSuchElementException | IllegalStateException e) {
                 LOGGER.error("Ocurrio un error al elegir la dificultad del sudoku {}", e.getMessage());
                 opcion = '0';
@@ -82,6 +96,11 @@ public class Main {
         return obtenerNumeroHuecos(opcion);
     }
 
+    /**
+     * Obtiene el número de huecos en el tablero según la dificultad elegida.
+     * @param dificultad la dificultad elegida.
+     * @return el número de huecos en el tablero.
+     */
     private static int obtenerNumeroHuecos(char dificultad) {
 
         Random random = new Random();
@@ -93,6 +112,10 @@ public class Main {
         };
     }
 
+    /**
+     * Muestra un menú para que el usuario elija entre jugar un nuevo Sudoku o comprobar uno existente.
+     * @return la opción elegida por el usuario.
+     */
     private static char elegirOpcion() {
 
         char opcion;
@@ -105,9 +128,7 @@ public class Main {
                     2. Comprobar sudoku
                     3. Salir""");
             try {
-
                 opcion = sc.next().charAt(0);
-
             } catch (NoSuchElementException | IllegalStateException e) {
                 LOGGER.error("Ocurrio un error al elegir la opcion de sudoku {}", e.getMessage());
                 opcion = '0';
