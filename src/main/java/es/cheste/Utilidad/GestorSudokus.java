@@ -20,8 +20,10 @@ import java.util.List;
  */
 public class GestorSudokus {
 
-    private static final String DIRECTORIO_PARTIDAS = Configuracion.getConfiguracion("directorio.partidas") + "Sudoku_";
-    private static final String DIRECTORIO_DATOS = Configuracion.getConfiguracion("directorio.datos") + "Sudoku_";
+    private static final String DIRECTORIO_PARTIDAS = Configuracion.getConfiguracion("directorio.partidas");
+    private static final String RUTA_PARTIDAS = Configuracion.getConfiguracion("directorio.partidas.sudoku");
+    private static final String DIRECTORIO_DATOS = Configuracion.getConfiguracion("directorio.datos");
+    private static final String RUTA_DATOS = Configuracion.getConfiguracion("directorio.datos.sudoku");
     private static final Logger LOGGER = LogManager.getLogger(GestorSudokus.class);
 
     /**
@@ -41,7 +43,7 @@ public class GestorSudokus {
                 String[] ficheroSplit;
 
                 ficheroSplit = fichero.getName().split("_");
-                uuidFichero.add(ficheroSplit[1]);
+                uuidFichero.add(ficheroSplit[1].replace(".txt","").trim());
             }
 
             return uuidFichero;
@@ -65,6 +67,83 @@ public class GestorSudokus {
     }
 
     /**
+     * Guarda un tablero de Sudoku en un archivo de texto.
+     * @param sudoku el objeto Sudoku a guardar.
+     * @return true si el Sudoku se guardó correctamente, false en caso contrario.
+     */
+    public boolean guardarSudoku(Sudoku sudoku) {
+
+        Path pathPartida = Paths.get(RUTA_PARTIDAS + sudoku.getUuid() + ".txt");
+
+        try {
+            Files.writeString(pathPartida, Sudoku.mostrarTablero(sudoku.getTablero()));
+        } catch (FileNotFoundException e) {
+            LOGGER.error("No se ha encontrado el fichero en el método 'guardarSudoku' {}", e.getMessage());
+            return Boolean.FALSE;
+        } catch (IOException e) {
+            LOGGER.error("Hubo un error al guardar el sudoku {}", e.getMessage());
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Obtiene los números de una línea de texto que representa una fila del tablero de Sudoku.
+     * @param linea la línea de texto.
+     * @param tamanyo el tamaño del tablero de Sudoku.
+     * @return un array de enteros que representa los números de la fila.
+     */
+    private int[] obtenerNumerosDeLinea(String linea, int tamanyo) {
+        int[] numeros = new int[tamanyo];
+        String[] valores = linea.trim().split("\\s+");
+        for (int j = 0; j < tamanyo; j++) {
+            if (!valores[j].contains(".")) {
+                numeros[j] = Integer.parseInt(valores[j]);
+            } else return new int[tamanyo];
+        }
+        return numeros;
+    }
+
+    /**
+     * Guarda los datos de un objeto Sudoku en un archivo binario.
+     * @param sudoku el objeto Sudoku a guardar.
+     * @return true si los datos se guardaron correctamente, false en caso contrario.
+     */
+    public boolean guardarDatosSudoku(Sudoku sudoku) {
+
+        boolean esValido = Boolean.TRUE;
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(RUTA_DATOS + sudoku.getUuid() + ".dat"))) {
+
+            oos.writeObject(sudoku);
+
+        } catch (FileNotFoundException e) {
+            LOGGER.error("No se ha encontrado el fichero en el método 'guardarDatosSudoku' {}", e.getMessage());
+            esValido = Boolean.FALSE;
+        } catch (IOException e) {
+            LOGGER.error("Ocurrio un error al guardar el objeto {}", e.getMessage());
+            esValido = Boolean.FALSE;
+        }
+
+        return esValido;
+    }
+
+    public String comprobarSudokus(String uuidSudoku) {
+
+        int[][] sudokuJugador = cargarSudoku(uuidSudoku);
+        Sudoku sudoku = cargarDatosSudoku(uuidSudoku);
+
+        if(sudokuJugador == null || sudoku == null){
+            return "Hubo un error inesperado";
+        }
+        if (Arrays.stream(sudokuJugador).findAny().isEmpty()){
+            return "Por favor rellene todas las celdas, y elimine los puntos (.)";
+        }
+
+        return "Se mostrará la solución del sudoku, se marcarán con puntos (.) los errores: \n" + Sudoku.mostrarTablero(sudoku.comprobarResultado(sudokuJugador));
+    }
+
+    /**
      * Carga un tablero de Sudoku desde un archivo de texto.
      *
      * @param uuidSudoku el UUID del Sudoku a cargar.
@@ -72,7 +151,7 @@ public class GestorSudokus {
      */
     public int[][] cargarSudoku(String uuidSudoku) {
         final int tamanyo = Integer.parseInt(Configuracion.getConfiguracion("sudoku.tamanyo"));
-        Path pathPartida = Paths.get(DIRECTORIO_PARTIDAS + uuidSudoku + ".txt");
+        Path pathPartida = Paths.get(RUTA_PARTIDAS + uuidSudoku + ".txt");
         List<String> lineas;
         int[][] tablero = new int[tamanyo][tamanyo];
 
@@ -98,68 +177,6 @@ public class GestorSudokus {
     }
 
     /**
-     * Obtiene los números de una línea de texto que representa una fila del tablero de Sudoku.
-     * @param linea la línea de texto.
-     * @param tamanyo el tamaño del tablero de Sudoku.
-     * @return un array de enteros que representa los números de la fila.
-     */
-    private int[] obtenerNumerosDeLinea(String linea, int tamanyo) {
-        int[] numeros = new int[tamanyo];
-        String[] valores = linea.trim().split("\\s+");
-        for (int j = 0; j < tamanyo; j++) {
-            if (!valores[j].contains(".")) {
-                numeros[j] = Integer.parseInt(valores[j]);
-            } else return new int[tamanyo];
-        }
-        return numeros;
-    }
-
-    /**
-     * Guarda un tablero de Sudoku en un archivo de texto.
-     * @param sudoku el objeto Sudoku a guardar.
-     * @return true si el Sudoku se guardó correctamente, false en caso contrario.
-     */
-    public boolean guardarSudoku(Sudoku sudoku) {
-
-        Path pathPartida = Paths.get(DIRECTORIO_PARTIDAS + sudoku.getUuid() + ".txt");
-
-        try {
-            Files.writeString(pathPartida, Sudoku.mostrarTablero(sudoku.getTablero()));
-        } catch (FileNotFoundException e) {
-            LOGGER.error("No se ha encontrado el fichero en el método 'guardarSudoku' {}", e.getMessage());
-            return Boolean.FALSE;
-        } catch (IOException e) {
-            LOGGER.error("Hubo un error al guardar el sudoku {}", e.getMessage());
-            return Boolean.FALSE;
-        }
-        return Boolean.TRUE;
-    }
-
-    /**
-     * Guarda los datos de un objeto Sudoku en un archivo binario.
-     * @param sudoku el objeto Sudoku a guardar.
-     * @return true si los datos se guardaron correctamente, false en caso contrario.
-     */
-    public boolean guardarDatosSudoku(Sudoku sudoku) {
-
-        boolean esValido = Boolean.TRUE;
-
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DIRECTORIO_DATOS + sudoku.getUuid() + ".dat"))) {
-
-            oos.writeObject(sudoku);
-
-        } catch (FileNotFoundException e) {
-            LOGGER.error("No se ha encontrado el fichero en el método 'guardarDatosSudoku' {}", e.getMessage());
-            esValido = Boolean.FALSE;
-        } catch (IOException e) {
-            LOGGER.error("Ocurrio un error al guardar el objeto {}", e.getMessage());
-            esValido = Boolean.FALSE;
-        }
-
-        return esValido;
-    }
-
-    /**
      * Carga los datos de un objeto Sudoku desde un archivo binario.
      * @param uuidSudoku el UUID del Sudoku a cargar.
      * @return el objeto Sudoku cargado, o null si hubo un error.
@@ -168,7 +185,7 @@ public class GestorSudokus {
 
         Sudoku sudoku = null;
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DIRECTORIO_DATOS + uuidSudoku + ".dat"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(RUTA_DATOS + uuidSudoku + ".dat"))) {
             sudoku = (Sudoku) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             LOGGER.error("Hubo un error al cargar los datos del sudoku.\nUUID: {}\nMensaje: {}", uuidSudoku, e.getMessage());

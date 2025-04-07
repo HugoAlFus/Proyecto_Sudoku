@@ -1,3 +1,18 @@
 2024-12-10 19:29:00,473 ERROR e.c.U.GestorSudokus [main] Hubo un error al cargar los datos del sudoku.
 UUID: 17ab8c2b-5d1e-49ed-bd41-5cdeb726a6da
 Mensaje: es.cheste.Objetos.Sudoku; local class incompatible: stream classdesc serialVersionUID = -6352907546964353678, local class serialVersionUID = -7457514124662319888
+2025-04-07 16:31:45,438 ERROR e.c.U.GestorSudokus [main] Hubo un error al cargar el sudoku.
+UUID: 661c42b3-2fa8-4333-b870-acd88d059ccc.txt
+Mensaje: src\main\resources\partidas\Sudoku_661c42b3-2fa8-4333-b870-acd88d059ccc.txt.txt
+2025-04-07 16:31:45,441 ERROR e.c.U.GestorSudokus [main] Hubo un error al cargar los datos del sudoku.
+UUID: 661c42b3-2fa8-4333-b870-acd88d059ccc.txt
+Mensaje: src\main\resources\datos\Sudoku_661c42b3-2fa8-4333-b870-acd88d059ccc.txt.dat (El sistema no puede encontrar el archivo especificado)
+2025-04-07 16:35:48,543 ERROR e.c.U.GestorSudokus [main] Hubo un error al cargar los datos del sudoku.
+UUID: 661c42b3-2fa8-4333-b870-acd88d059ccc
+Mensaje: es.cheste.Objetos.Sudoku; local class incompatible: stream classdesc serialVersionUID = -6399543142278025777, local class serialVersionUID = 1460474888707405561
+2025-04-07 16:36:13,125 ERROR e.c.U.GestorSudokus [main] Hubo un error al cargar los datos del sudoku.
+UUID: 661c42b3-2fa8-4333-b870-acd88d059ccc
+Mensaje: es.cheste.Objetos.Sudoku; local class incompatible: stream classdesc serialVersionUID = -6399543142278025777, local class serialVersionUID = 1460474888707405561
+2025-04-07 16:38:29,677 ERROR e.c.U.GestorSudokus [main] Hubo un error al cargar los datos del sudoku.
+UUID: 661c42b3-2fa8-4333-b870-acd88d059ccc
+Mensaje: es.cheste.Objetos.Sudoku; local class incompatible: stream classdesc serialVersionUID = -6399543142278025777, local class serialVersionUID = 1460474888707405561

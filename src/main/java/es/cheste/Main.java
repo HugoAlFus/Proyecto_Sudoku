@@ -6,7 +6,10 @@ import es.cheste.Utilidad.GestorSudokus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.Scanner;
 
 /**
  * @author Hugo Almodóvar Fuster
@@ -43,7 +46,13 @@ public class Main {
                         : "Hubo un error al guardar los datos");
                 break;
             case '2':
-                // Código para comprobar un Sudoku existente
+
+                String uuid = elegirFichero();
+
+                if(uuid != null){
+                    System.out.println(gestorSudokus.comprobarSudokus(uuid));
+                }else System.err.println("Hubo un error no esperado");
+
                 break;
         }
     }
@@ -59,10 +68,26 @@ public class Main {
         List<String> listaUUID = GestorSudokus.obtenerUUIDSudoku();
 
         for (int i = 0; i < listaUUID.size(); i++) {
-            sb.append((i + 1)).append(". ").append(listaUUID.get(i));
+            sb.append((i + 1)).append(". ").append(listaUUID.get(i)).append("\n");
         }
+        sb.append("Elija el sudoku indicando el número de delante: ");
 
-        return "";
+        do {
+            try {
+                System.out.println(sb);
+                opcion = sc.nextInt();
+            } catch (NoSuchElementException | IllegalStateException e) {
+                LOGGER.error("Ocurrio un error al elegir el sudoku {}", e.getMessage());
+                return null;
+            }
+
+            if (opcion < 1 || opcion > listaUUID.size()) {
+                System.err.println("Por favor, elija un número correcto");
+            }
+
+        } while (opcion < 1 || opcion > listaUUID.size());
+
+        return listaUUID.get(opcion - 1);
     }
 
     /**
