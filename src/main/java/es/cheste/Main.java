@@ -44,6 +44,7 @@ public class Main {
                         : "Hubo un error y no se puedo guardar el sudoku");
                 System.out.println(gestorSudokus.guardarDatosSudoku(sudoku) ? "Los datos del sudoku se han guardado correctamente"
                         : "Hubo un error al guardar los datos");
+                System.out.println("Por favor, mire en la carpeta partidas en resources, ahi estará su sudoku");
                 break;
             case '2':
 
