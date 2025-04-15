@@ -15,3 +15,4 @@ Este proyecto es una aplicación para generar, guardar, cargar y comprobar table
 ---
 Actualmente, se está desarrollando la parte visual con JavaFX.
 Para probar el programa hay que iniciar ``Main.java`` y en la consola saldrán los pasos a seguir
+
