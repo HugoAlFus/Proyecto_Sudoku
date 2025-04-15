@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * @author Hugo Almodóvar Fuster
- * @version 1.0
+ * @version 1.1
  * La clase GestorSudokus proporciona métodos para cargar y guardar tableros de Sudoku,
  * así como para gestionar los datos de los Sudokus.
  */
@@ -65,7 +65,15 @@ public class GestorSudokus {
         }
         return null;
     }
-
+    /**
+     * Comprueba un Sudoku resuelto por el jugador comparándolo con la solución almacenada.
+     *
+     * @param uuidSudoku el UUID del Sudoku que se desea comprobar.
+     * @return un mensaje indicando el resultado de la comprobación:
+     *         - "Hubo un error inesperado" si ocurre un problema al cargar el Sudoku o sus datos.
+     *         - "Por favor rellene todas las celdas, y elimine los puntos (.)" si el tablero del jugador no está completo.
+     *         - "Se mostrará el sudoku corregido en el archivo correspondiente, se marcarán con (.) los errores" si la comprobación se realiza correctamente.
+     */
     public String comprobarSudokus(String uuidSudoku) {
 
         int[][] sudokuJugador = cargarSudoku(uuidSudoku);

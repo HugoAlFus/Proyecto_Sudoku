@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 /**
  * @author Hugo Almodóvar Fuster
- * @version 1.0
+ * @version 1.1
  *
  * La clase Main es el punto de entrada de la aplicación de Sudoku.
  * Proporciona un menú para que el usuario elija entre jugar un nuevo Sudoku o comprobar uno existente.

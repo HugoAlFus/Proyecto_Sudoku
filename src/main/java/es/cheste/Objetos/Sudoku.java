@@ -7,7 +7,7 @@ import java.util.*;
 
 /**
  * @author Hugo Almodóvar Fuster
- * @version 1.0
+ * @version 1.0.1
  *
  * La clase Sudoku representa un juego de Sudoku y proporciona métodos para generar y comprobar tableros de Sudoku.
  * Implementa la interfaz Serializable para permitir la serialización de objetos Sudoku.
@@ -68,6 +68,10 @@ public class Sudoku implements Serializable {
         return tablero;
     }
 
+    /**
+     * Obtiene el tablero comprobado del Sudoku.
+     * @return el tablero comprobado del Sudoku.
+     */
     public int[][] getTableroComprobado() {
         return tableroComprobado;
     }
