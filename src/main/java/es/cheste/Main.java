@@ -40,7 +40,7 @@ public class Main {
                 Sudoku sudoku = new Sudoku();
                 int numHuecos = elegirDificultad();
                 sudoku.generar(numHuecos);
-                System.out.println(gestorSudokus.guardarSudoku(sudoku) ? "El sudoku se guardo correctamente"
+                System.out.println(gestorSudokus.guardarSudoku(sudoku, Boolean.FALSE) ? "El sudoku se guardo correctamente"
                         : "Hubo un error y no se puedo guardar el sudoku");
                 System.out.println(gestorSudokus.guardarDatosSudoku(sudoku) ? "Los datos del sudoku se han guardado correctamente"
                         : "Hubo un error al guardar los datos");
@@ -52,8 +52,10 @@ public class Main {
                 if(uuid != null){
                     System.out.println(gestorSudokus.comprobarSudokus(uuid));
                 }else System.err.println("Hubo un error no esperado");
-
                 break;
+
+            default:
+                System.out.println("Saliendo de la aplicación, gracias por usarla");
         }
     }
 

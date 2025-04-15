@@ -17,6 +17,7 @@ public class Sudoku implements Serializable {
     private static final int TAMANYO = Integer.parseInt(Configuracion.getConfiguracion("sudoku.tamanyo"));
     private final int[][] tableroSolucion;
     private final int[][] tablero;
+    private int[][] tableroComprobado;
     private final String uuid;
 
     /**
@@ -26,6 +27,7 @@ public class Sudoku implements Serializable {
     public Sudoku() {
         this.tableroSolucion = new int[TAMANYO][TAMANYO];
         this.tablero = new int[TAMANYO][TAMANYO];
+        this.tableroComprobado = new int[TAMANYO][TAMANYO];
         this.uuid = UUID.randomUUID().toString();
     }
 
@@ -64,6 +66,10 @@ public class Sudoku implements Serializable {
      */
     public int[][] getTablero() {
         return tablero;
+    }
+
+    public int[][] getTableroComprobado() {
+        return tableroComprobado;
     }
 
     @Override
@@ -196,17 +202,15 @@ public class Sudoku implements Serializable {
      * @param tableroJugador el tablero del jugador.
      * @return un tablero que muestra las celdas correctas e incorrectas.
      */
-    public int[][] comprobarResultado(int[][] tableroJugador) {
-        int[][] tableroComprobacion = new int[TAMANYO][TAMANYO];
+    public void comprobarResultado(int[][] tableroJugador) {
+
 
         for (int i = 0; i < TAMANYO; i++) {
             for (int j = 0; j < TAMANYO; j++) {
                 if (tableroJugador[i][j] != tableroSolucion[i][j]) {
-                    tableroComprobacion[i][j] = 0;
-                } else tableroComprobacion[i][j] = tableroSolucion[i][j];
+                    tableroComprobado[i][j] = 0;
+                } else tableroComprobado[i][j] = tableroSolucion[i][j];
             }
         }
-
-        return tableroComprobacion;
     }
 }
